@@ -23,11 +23,14 @@ public class RetrofitClient {
     public static Retrofit retrofit() {
         if (mRetrofit == null) {
             mRetrofit = new Retrofit.Builder()
-                    .client(okHttpClient())
+//                    .addConverterFactory(FastJsonConverterFactory.create())
+//                    .addConverterFactory(JacksonConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .baseUrl(BASE_URL)
+                    .client(okHttpClient())
                     .build();
+
         }
         
         return mRetrofit;
