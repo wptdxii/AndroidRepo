@@ -1,4 +1,4 @@
-package com.wptdxii.androidrepo.network.retrofit;
+package com.wptdxii.androidrepo.network.retrofit.api;
 
 import com.wptdxii.androidrepo.model.BaseModel;
 import com.wptdxii.androidrepo.model.Benefit;
@@ -13,7 +13,7 @@ import rx.Observable;
 /**
  * Created by wptdxii on 2016/8/1 0001.
  */
-public interface Api {
+public interface GankApi {
     
     @GET("api/data/福利/{number}/{page}")
     Call<BaseModel<ArrayList<Benefit>>> defaultBenefits(

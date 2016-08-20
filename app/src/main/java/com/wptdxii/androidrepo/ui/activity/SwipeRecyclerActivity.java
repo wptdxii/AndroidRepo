@@ -7,13 +7,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.wptdxii.androidrepo.R;
+import com.wptdxii.androidrepo.imageloader.ImageLoader;
+import com.wptdxii.androidrepo.imageloader.ImageLoaderConfig;
 import com.wptdxii.androidrepo.model.BaseModel;
 import com.wptdxii.androidrepo.model.Benefit;
-import com.wptdxii.androidrepo.network.retrofit.Api;
-import com.wptdxii.androidrepo.network.retrofit.RetrofitClient;
+import com.wptdxii.androidrepo.network.retrofit.api.ApiFactory;
+import com.wptdxii.androidrepo.network.retrofit.api.GankApi;
 import com.wptdxii.androidrepo.ui.base.BaseSwipeRecyclerActivity;
 import com.wptdxii.androidrepo.widget.swiperecycler.BaseSwipeRecyclerAdapter;
 import com.wptdxii.androidrepo.widget.swiperecycler.BaseSwipeViewHolder;
@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class SwipeRecyclerActivity extends BaseSwipeRecyclerActivity<Benefit> {
     private int page = 1;
@@ -37,7 +36,8 @@ public class SwipeRecyclerActivity extends BaseSwipeRecyclerActivity<Benefit> {
         mSwipeRecycler = getSwipeRecycler();
         mAdapter = getAdapter();
         mDataList = getDataList();
-        // 首次进入不现实刷新进度条,默认显示
+        
+        //首次进入不现实刷新进度条,默认显示
         //mSwipeRecycler.isInitWithRefreshBar(false);
         mSwipeRecycler.setRefreshing();
     }
@@ -55,9 +55,10 @@ public class SwipeRecyclerActivity extends BaseSwipeRecyclerActivity<Benefit> {
         if (action == SwipeRecycler.ACTION_PULL_TO_REFRESH) {
             page = 1;
         }
-
-        Retrofit retrofit = RetrofitClient.retrofit();
-        Api api = retrofit.create(Api.class);
+        //未封装
+        //GankApi api = RetrofitClient.getInstance().createApi(GankApi.class);
+        //封装后
+        GankApi api = ApiFactory.getGankApi();
         Call<BaseModel<ArrayList<Benefit>>> call = api.defaultBenefits(20, page++);
         call.enqueue(new Callback<BaseModel<ArrayList<Benefit>>>() {
             @Override
@@ -93,20 +94,22 @@ public class SwipeRecyclerActivity extends BaseSwipeRecyclerActivity<Benefit> {
             mImageView = (ImageView) view.findViewById(R.id.swipeRecyclerItemImg);
         }
 
-
         @Override
         protected void onBindViewHolder(int position) {
-           mTextView.setVisibility(View.GONE);
-            Glide.with(SwipeRecyclerActivity.this)
-                    .load(mDataList.get(position).getUrl())
-                    .centerCrop()
-                    .placeholder(R.color.colorPrimary)
-                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .into(mImageView);
+            Benefit benefit = mDataList.get(position);
+            mTextView.setVisibility(View.GONE);
+            ImageLoader.getInstance().loadImage(SwipeRecyclerActivity.this, 
+                    new ImageLoaderConfig.Builder()
+                    .url(benefit.getUrl())
+                    .imgView(mImageView)
+                    .build()
+            );
+
         }
 
         @Override
         protected void onItemClick(View view, int position) {
+            
         }
     }
 }
