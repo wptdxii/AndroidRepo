@@ -19,6 +19,11 @@ import java.io.InputStream;
  * Created by wptdxii on 2016/8/20 0020.
  */
 public class GlideImageLoaderStrategy implements IImageLoaderStrategy {
+    /**
+     * load image
+     * @param context
+     * @param imageLoaderConfig
+     */
     @Override
     public void loadImage(Context context, ImageLoaderConfig imageLoaderConfig) {
         loadNormal(context,imageLoaderConfig);
@@ -43,6 +48,20 @@ public class GlideImageLoaderStrategy implements IImageLoaderStrategy {
             //如果不是在wifi下才加载图片
             loadNormal(context, imageLoaderConfig);
         } 
+    }
+
+    /**
+     * load circel image
+     * @param context
+     * @param imageLoaderConfig
+     */
+    @Override
+    public void loadCircleImage(Context context, ImageLoaderConfig imageLoaderConfig) {
+        Glide.with(context)
+                .load(imageLoaderConfig.getUrl())
+                .placeholder(imageLoaderConfig.getPlaceHolder())
+                .transform(new GlideCircleTransform(context))
+                .into(imageLoaderConfig.getImgView());
     }
 
     /**
@@ -96,14 +115,4 @@ public class GlideImageLoaderStrategy implements IImageLoaderStrategy {
                 .crossFade()
                 .into(imageLoaderConfig.getImgView());
     }
-
-    @Override
-    public void loadCircleImage(Context context, ImageLoaderConfig imageLoaderConfig) {
-        Glide.with(context)
-                .load(imageLoaderConfig.getUrl())
-                .placeholder(imageLoaderConfig.getPlaceHolder())
-                .transform(new GlideCircleTransform(context))
-                .into(imageLoaderConfig.getImgView());
-    }
- 
 }

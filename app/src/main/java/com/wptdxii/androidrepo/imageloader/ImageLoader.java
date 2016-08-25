@@ -1,46 +1,121 @@
 package com.wptdxii.androidrepo.imageloader;
 
 import android.content.Context;
+import android.widget.ImageView;
 
-import com.wptdxii.androidrepo.imageloader.glide.GlideImageLoaderStrategy;
+import com.wptdxii.androidrepo.App;
 
 /**
  * Created by wptdxii on 2016/8/20 0020.
  */
-public class ImageLoader implements IImageLoaderStrategy{
-    public static final int PIC_LARGE = 0;
-    public static final int PIC_MEDIUM = 1;
-    public static final int PIC_SMALL = 2;
+public class ImageLoader {
 
-    public static final int LOAD_STRATEGY_NORMAL = 0;
-    public static final int LOAD_STRATEGY_ONLY_WIFI = 1;
-    
-    
-    private IImageLoaderStrategy mStrategy;
-    
     private ImageLoader() {
-        mStrategy = new GlideImageLoaderStrategy();
+        throw new UnsupportedOperationException("cannot be instantiated");
+    }
+
+    /**
+     * 使用默认配置加载图片
+     * 使用全局context
+     * @param imageView
+     * @param url
+     */
+    public static void loadImage(ImageView imageView, String url) {
+        ImageLoaderConfig config = getImageLoaderConfig(imageView, url);
+        loadImage(config);
+    }
+
+    /**
+     * 使用默认配置加载图片
+     * 使用当前context
+     * @param context
+     * @param imageView
+     * @param url
+     */
+    public static void loadImage(Context context, ImageView imageView, String url) {
+
+        ImageLoaderConfig config = getImageLoaderConfig(imageView, url);
+        loadImage(context,config);
+    }
+
+    /**
+     * 加载圆形图片
+     * 使用默认配置加载图片
+     * 使用全局context
+     * @param imageView
+     * @param url
+     */
+    public static void loadCircleImage(ImageView imageView, String url) {
+        ImageLoaderConfig config = getImageLoaderConfig(imageView, url);
+        loadCircleImage(config);
+    }
+
+    /**
+     * 使用默认配置加载圆形图片
+     * 使用当前context
+     * @param context
+     * @param imageView
+     * @param url
+     */
+    public static void loadCircleImage(Context context, ImageView imageView, String url) {
+        ImageLoaderConfig config = getImageLoaderConfig(imageView, url);
+        loadCircleImage(context,config);
+    }
+
+    /**
+     * 自定义加载圆形图片配置
+     * 需要指定ImageView和URL
+     * 使用全局context
+     * @param imageLoaderConfig
+     */
+    public static void loadImage(ImageLoaderConfig imageLoaderConfig) {
+        ImageLoaderProvider.getInstance().loadImage(App.getInstance(),imageLoaderConfig);
+    }
+
+    /**
+     * 自定义加载圆形图片配置
+     * 需要指定ImageView和URL
+     * 使用当前context
+     * @param context
+     * @param imageLoaderConfig
+     */
+    public static void loadImage(Context context, ImageLoaderConfig imageLoaderConfig) {
+        ImageLoaderProvider.getInstance().loadImage(context,imageLoaderConfig);
+    }
+
+    /**
+     * 自定义加载圆形图片配置
+     * 需要指定ImageView和URL
+     * 使用全局context
+     * @param imageLoaderConfig
+     */
+    public static void loadCircleImage(ImageLoaderConfig imageLoaderConfig) {
+        ImageLoaderProvider.getInstance().loadCircleImage(App.getInstance(),imageLoaderConfig);
+    }
+
+    /**
+     * 自定义加载圆形图片配置
+     * 需要指定ImageView和URL
+     * 使用全局context
+     * @param context
+     * @param imageLoaderConfig
+     */
+    public static void loadCircleImage(Context context,ImageLoaderConfig imageLoaderConfig) {
+        ImageLoaderProvider.getInstance().loadCircleImage(context,imageLoaderConfig);
     }
 
 
-    private static class ImageLoaderUtilHolder {
-        private static ImageLoader instance = new ImageLoader();
-    }
-    
-    public static ImageLoader getInstance() {
-        return ImageLoaderUtilHolder.instance;
-    }
-    @Override
-    public void loadImage(Context context, ImageLoaderConfig imageLoaderConfig) {
-        mStrategy.loadImage(context,imageLoaderConfig);
-    }
+    /**
+     * 提供默认的配置
+     * @param imageView
+     * @param url
+     * @return
+     */
+    private static ImageLoaderConfig getImageLoaderConfig(ImageView imageView, String url) {
 
-    @Override
-    public void loadCircleImage(Context context, ImageLoaderConfig imageLoaderConfig) {
-        mStrategy.loadCircleImage(context,imageLoaderConfig);
-    }
-    
-    public void setLoadImageStrategy(IImageLoaderStrategy strategy) {
-        this.mStrategy = strategy;
+        return new ImageLoaderConfig.Builder()
+                .imgView(imageView)
+                .url(url)
+                .build();
     }
 }
