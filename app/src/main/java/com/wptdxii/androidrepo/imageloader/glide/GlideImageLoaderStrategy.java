@@ -8,9 +8,8 @@ import com.bumptech.glide.load.data.DataFetcher;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.model.stream.StreamModelLoader;
 import com.wptdxii.androidrepo.imageloader.IImageLoaderStrategy;
-import com.wptdxii.androidrepo.imageloader.ImageLoader;
 import com.wptdxii.androidrepo.imageloader.ImageLoaderConfig;
-import com.wptdxii.androidrepo.util.NetUtils;
+import com.wptdxii.ext.util.NetUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,13 +20,18 @@ import java.io.InputStream;
 public class GlideImageLoaderStrategy implements IImageLoaderStrategy {
     /**
      * load image
+     *
      * @param context
      * @param imageLoaderConfig
      */
     @Override
     public void loadImage(Context context, ImageLoaderConfig imageLoaderConfig) {
-        loadNormal(context,imageLoaderConfig);
-        boolean flag = NetUtils.isWifiConnected(context);
+        loadNormal(context, imageLoaderConfig);
+        boolean flag = false;
+        if (NetUtils.isConnected(context)) {
+
+            flag = NetUtils.isWifiConnected(context);
+        }
         //如果不是在wifi下加载图片，加载缓存
         if (!flag) {
             loadCache(context, imageLoaderConfig);
@@ -35,7 +39,7 @@ public class GlideImageLoaderStrategy implements IImageLoaderStrategy {
         }
 
         int strategy = imageLoaderConfig.getWifiStrategy();
-        if (strategy == ImageLoader.LOAD_STRATEGY_ONLY_WIFI) {
+        if (strategy == ImageLoaderConfig.LOAD_STRATEGY_ONLY_WIFI) {
             int netType = NetUtils.getNetWorkType(context);
             if (netType == NetUtils.NETWORKTYPE_WIFI) {
                 //如果是在wifi下才加载图片，并且当前网络是wifi,直接加载
@@ -47,11 +51,12 @@ public class GlideImageLoaderStrategy implements IImageLoaderStrategy {
         } else {
             //如果不是在wifi下才加载图片
             loadNormal(context, imageLoaderConfig);
-        } 
+        }
     }
 
     /**
      * load circel image
+     *
      * @param context
      * @param imageLoaderConfig
      */
@@ -64,8 +69,10 @@ public class GlideImageLoaderStrategy implements IImageLoaderStrategy {
                 .into(imageLoaderConfig.getImgView());
     }
 
+
     /**
      * load cache image with Glide
+     *
      * @param context
      * @param imageLoaderConfig
      */
@@ -104,6 +111,7 @@ public class GlideImageLoaderStrategy implements IImageLoaderStrategy {
 
     /**
      * load image with Glide
+     *
      * @param context
      * @param imageLoaderConfig
      */
@@ -111,7 +119,7 @@ public class GlideImageLoaderStrategy implements IImageLoaderStrategy {
         Glide.with(context)
                 .load(imageLoaderConfig.getUrl())
                 .centerCrop()
-//                .placeholder(imageLoaderConfig.getPlaceHolder())
+                //                .placeholder(imageLoaderConfig.getPlaceHolder())
                 .crossFade()
                 .into(imageLoaderConfig.getImgView());
     }

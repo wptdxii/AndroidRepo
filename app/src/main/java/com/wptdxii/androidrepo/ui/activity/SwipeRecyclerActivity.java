@@ -9,35 +9,25 @@ import android.widget.TextView;
 
 import com.wptdxii.androidrepo.R;
 import com.wptdxii.androidrepo.imageloader.ImageLoader;
-import com.wptdxii.androidrepo.imageloader.ImageLoaderConfig;
-import com.wptdxii.androidrepo.model.BaseModel;
-import com.wptdxii.androidrepo.model.Benefit;
-import com.wptdxii.androidrepo.network.retrofit.api.ApiFactory;
-import com.wptdxii.androidrepo.network.retrofit.api.GankApi;
 import com.wptdxii.androidrepo.ui.base.BaseSwipeRecyclerActivity;
-import com.wptdxii.androidrepo.widget.swiperecycler.BaseSwipeRecyclerAdapter;
-import com.wptdxii.androidrepo.widget.swiperecycler.BaseSwipeViewHolder;
-import com.wptdxii.androidrepo.widget.swiperecycler.SwipeRecycler;
+import com.wptdxii.uikit.widget.swiperecycler.BaseSwipeViewHolder;
+import com.wptdxii.uikit.widget.swiperecycler.SwipeRecycler;
+import com.wptdxii.data.net.retrofit.api.ApiFactory;
+import com.wptdxii.data.net.retrofit.rx.func.RetryFunc;
+import com.wptdxii.data.net.retrofit.rx.subscriber.BaseGankResponseSubscriber;
+import com.wptdxii.data.net.retrofit.transformer.DefaultTransformer;
+import com.wptdxii.domain.model.gank.BaseGankResponse;
+import com.wptdxii.domain.model.gank.GankModel;
 
 import java.util.ArrayList;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class SwipeRecyclerActivity extends BaseSwipeRecyclerActivity<Benefit> {
+public class SwipeRecyclerActivity extends BaseSwipeRecyclerActivity<GankModel> {
     private int page = 1;
-    private SwipeRecycler mSwipeRecycler;
-    private BaseSwipeRecyclerAdapter mAdapter;
-    private ArrayList<Benefit> mDataList;
-    
     @Override
     protected void initListData(Bundle savedInstanceState) {
-        mSwipeRecycler = getSwipeRecycler();
-        mAdapter = getAdapter();
-        mDataList = getDataList();
-        
-        //首次进入不现实刷新进度条,默认显示
+        //首次进入不显示刷新进度条,默认显示
         //mSwipeRecycler.isInitWithRefreshBar(false);
         mSwipeRecycler.setRefreshing();
     }
@@ -55,34 +45,35 @@ public class SwipeRecyclerActivity extends BaseSwipeRecyclerActivity<Benefit> {
         if (action == SwipeRecycler.ACTION_PULL_TO_REFRESH) {
             page = 1;
         }
-        //未封装
-        //GankApi api = RetrofitClient.getInstance().createApi(GankApi.class);
-        //封装后
-        GankApi api = ApiFactory.getGankApi();
-        Call<BaseModel<ArrayList<Benefit>>> call = api.defaultBenefits(20, page++);
-        call.enqueue(new Callback<BaseModel<ArrayList<Benefit>>>() {
-            @Override
-            public void onResponse(Call<BaseModel<ArrayList<Benefit>>> call, Response<BaseModel<ArrayList<Benefit>>> response) {
-                if (action == SwipeRecycler.ACTION_PULL_TO_REFRESH) {
-                    mDataList.clear();
-                }
-                if (response.body() == null || response.body().results.size() == 0) {
-                    mSwipeRecycler.enableLaodMore(false);
-                } else {
-                    mSwipeRecycler.enableLaodMore(true);
-                    mDataList.addAll(response.body().results);
-                    mAdapter.notifyDataSetChanged();
-                } 
-                
-                mSwipeRecycler.onRefreshCompleted();
-            }
+        Call<BaseGankResponse<ArrayList<GankModel>>> call = ApiFactory.getGankApi().getGankList(20, page++);
+        ApiFactory.getGankApi()
+               .getGankListWithRx(20,page++)
+               .compose(new DefaultTransformer<BaseGankResponse<ArrayList<GankModel>>, BaseGankResponse<ArrayList<GankModel>>>())
+               .retryWhen(new RetryFunc())//设置网络失败时的重连机制
+               .subscribe(new BaseGankResponseSubscriber<ArrayList<GankModel>>() {
+                   @Override
+                   protected void onSuccess(ArrayList<GankModel> gankModels) {
 
-            @Override
-            public void onFailure(Call<BaseModel<ArrayList<Benefit>>> call, Throwable t) {
-                mSwipeRecycler.onRefreshCompleted();
-                
-            }
-        });
+                       if (action == SwipeRecycler.ACTION_PULL_TO_REFRESH) {
+                           mDataList.clear();
+                       }
+                       if (gankModels == null || gankModels.size() == 0) {
+                           mSwipeRecycler.enableLaodMore(false);
+                       } else {
+                           mSwipeRecycler.enableLaodMore(true);
+                           mDataList.addAll(gankModels);
+                           mAdapter.notifyDataSetChanged();
+                       }
+
+                       mSwipeRecycler.onRefreshCompleted();
+
+                   }
+
+                   @Override
+                   protected void onFailure(Throwable e) {
+                        mSwipeRecycler.onRefreshCompleted();
+                   }
+               });
     }
 
     private class SwipeRecyclerViewHolder extends BaseSwipeViewHolder {
@@ -96,15 +87,9 @@ public class SwipeRecyclerActivity extends BaseSwipeRecyclerActivity<Benefit> {
 
         @Override
         protected void onBindViewHolder(int position) {
-            Benefit benefit = mDataList.get(position);
+            GankModel gankModel = mDataList.get(position);
             mTextView.setVisibility(View.GONE);
-            ImageLoader.getInstance().loadImage(SwipeRecyclerActivity.this, 
-                    new ImageLoaderConfig.Builder()
-                    .url(benefit.getUrl())
-                    .imgView(mImageView)
-                    .build()
-            );
-
+            ImageLoader.loadImage(mImageView.getContext(),mImageView, gankModel.getUrl());
         }
 
         @Override
@@ -113,3 +98,7 @@ public class SwipeRecyclerActivity extends BaseSwipeRecyclerActivity<Benefit> {
         }
     }
 }
+
+
+
+

@@ -9,8 +9,7 @@ import android.widget.TextView;
 
 import com.wptdxii.androidrepo.R;
 import com.wptdxii.androidrepo.model.Module;
-import com.wptdxii.androidrepo.widget.swiperecycler.BaseSwipeViewHolder;
-import com.wptdxii.androidrepo.widget.swiperecycler.SwipeRecycler;
+import com.wptdxii.uikit.widget.swiperecycler.BaseSwipeViewHolder;
 
 import java.util.ArrayList;
 
@@ -19,14 +18,8 @@ import java.util.ArrayList;
  * Created by wptdxii on 2016/8/3 0003.
  */
 public abstract class BaseContentActivity extends BaseSwipeRecyclerActivity<Module>{
-
-    private SwipeRecycler mSwipeRecycler;
-    private ArrayList<Module> mDataList;
-    
     @Override
     protected void initListData(Bundle savedInstanceState) {
-        mSwipeRecycler = getSwipeRecycler();
-        mDataList = getDataList();
         //不显示刷新进度条
         mSwipeRecycler.isInitWithRefreshBar(false);
         //不可刷新

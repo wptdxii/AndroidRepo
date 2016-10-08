@@ -5,12 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.wptdxii.androidrepo.R;
-import com.wptdxii.androidrepo.widget.swiperecycler.BaseSwipeRecyclerAdapter;
-import com.wptdxii.androidrepo.widget.swiperecycler.BaseSwipeViewHolder;
-import com.wptdxii.androidrepo.widget.swiperecycler.LinearDividerItemDecoration;
-import com.wptdxii.androidrepo.widget.swiperecycler.SwipeRecycler;
-import com.wptdxii.androidrepo.widget.swiperecycler.layoutmanager.CusLinearLayoutManager;
-import com.wptdxii.androidrepo.widget.swiperecycler.layoutmanager.ILayoutManager;
+import com.wptdxii.uikit.widget.swiperecycler.BaseSwipeRecyclerAdapter;
+import com.wptdxii.uikit.widget.swiperecycler.BaseSwipeViewHolder;
+import com.wptdxii.uikit.widget.swiperecycler.LinearDividerItemDecoration;
+import com.wptdxii.uikit.widget.swiperecycler.SwipeRecycler;
+import com.wptdxii.uikit.widget.swiperecycler.layoutmanager.CusLinearLayoutManager;
+import com.wptdxii.uikit.widget.swiperecycler.layoutmanager.ILayoutManager;
+import com.wptdxii.uiframework.base.BaseActivity;
 
 import java.util.ArrayList;
 
@@ -18,24 +19,9 @@ import java.util.ArrayList;
  * Created by wptdxii on 2016/7/30 0030.
  */
 public abstract class BaseSwipeRecyclerActivity<T> extends BaseActivity implements SwipeRecycler.OnSwipeRefreshListener {
-    private SwipeRecycler mSwipeRecycler;
-    private BaseSwipeRecyclerAdapter mAdapter;
-    private ArrayList<T> mDataList;
-
-    public BaseSwipeRecyclerAdapter getAdapter() {
-        return mAdapter;
-    }
-    
-
-    public SwipeRecycler getSwipeRecycler() {
-        return mSwipeRecycler;
-    }
-    
-
-    public ArrayList<T> getDataList() {
-        return mDataList;
-    }
-    
+    protected SwipeRecycler mSwipeRecycler;
+    protected BaseSwipeRecyclerAdapter mAdapter;
+    protected ArrayList<T> mDataList;
 
     @Override
     protected void initContentView() {

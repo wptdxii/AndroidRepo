@@ -5,7 +5,7 @@ import android.content.Context;
 import com.wptdxii.androidrepo.imageloader.glide.GlideImageLoaderStrategy;
 
 /**
- * Created by wptdxii on 2016/8/25 0025.
+ * Created by wptdxii on 2016/8/20 0020.
  */
 public class ImageLoaderProvider implements IImageLoaderStrategy {
     private IImageLoaderStrategy mStrategy;
@@ -33,11 +33,7 @@ public class ImageLoaderProvider implements IImageLoaderStrategy {
     public void loadCircleImage(Context context, ImageLoaderConfig imageLoaderConfig) {
         mStrategy.loadCircleImage(context, imageLoaderConfig);
     }
-
-    /**
-     * change default ImageLoaderStrategy Implement
-     * @param strategy
-     */
+    
     public void setLoadImageStrategy(IImageLoaderStrategy strategy) {
         this.mStrategy = strategy;
     }

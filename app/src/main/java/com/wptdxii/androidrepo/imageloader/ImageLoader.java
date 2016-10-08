@@ -6,10 +6,11 @@ import android.widget.ImageView;
 import com.wptdxii.androidrepo.App;
 
 /**
- * Created by wptdxii on 2016/8/20 0020.
+ * 加载图片的工具类
+ * Created by wptdxii on 2016/8/24 0024.
+ * 
  */
 public class ImageLoader {
-
     private ImageLoader() {
         throw new UnsupportedOperationException("cannot be instantiated");
     }
@@ -112,7 +113,7 @@ public class ImageLoader {
      * @return
      */
     private static ImageLoaderConfig getImageLoaderConfig(ImageView imageView, String url) {
-
+        
         return new ImageLoaderConfig.Builder()
                 .imgView(imageView)
                 .url(url)

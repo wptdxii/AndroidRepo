@@ -10,12 +10,14 @@ import com.wptdxii.androidrepo.R;
  *
  */
 public class ImageLoaderConfig {
+
     public static final int PIC_LARGE = 0;
     public static final int PIC_MEDIUM = 1;
     public static final int PIC_SMALL = 2;
 
     public static final int LOAD_STRATEGY_NORMAL = 0;
     public static final int LOAD_STRATEGY_ONLY_WIFI = 1;
+
 
     private int type;  //类型 (大图，中图，小图)
     private String url; //需要解析的url
@@ -92,6 +94,14 @@ public class ImageLoaderConfig {
         }
         
         public ImageLoaderConfig build() {
+            if (imgView == null) {
+                throw new IllegalArgumentException("imageView required");
+            }
+            if (url == null) {
+                if ("".equals(url)) {
+                    throw new IllegalArgumentException("url cannot be empty");
+                }
+            }
             return new ImageLoaderConfig(this);
         }
     }

@@ -9,7 +9,8 @@ import android.content.Context;
  *
  */
 public interface IImageLoaderStrategy {
+    
     void loadImage(Context context, ImageLoaderConfig imageLoaderConfig);
-
+    
     void loadCircleImage(Context context, ImageLoaderConfig imageLoaderConfig);
 }

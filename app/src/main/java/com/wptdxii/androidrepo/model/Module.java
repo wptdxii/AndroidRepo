@@ -1,6 +1,6 @@
 package com.wptdxii.androidrepo.model;
 
-import com.wptdxii.androidrepo.ui.base.BaseActivity;
+import com.wptdxii.uiframework.base.BaseActivity;
 
 /**
  * Created by wptdxii on 2016/8/2 0002.

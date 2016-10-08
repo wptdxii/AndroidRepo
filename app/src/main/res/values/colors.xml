@@ -3,9 +3,5 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorPrimary">#000000</color>
     <color name="colorAccent">#FFFFFF</color>
-    <color name="white">#FFFFFF</color>
-    <color name="grey">#808080</color>
-    <color name="black">#000000</color>
-    <color name="swipeRecyclerLinearDivider">#c9c9c9</color>
     <color name="splash_bg">#FFFFFF</color>
 </resources>

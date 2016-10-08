@@ -1,1 +1,9 @@
-include ':app'
+include ':app', ':data', ':domain' ,':ext', ':uikit', ':uiframework', ':im', ':authorize', ':share', ':share', ':lbs'
+
+project(':ext').projectDir = new File('sdk/ext')
+project(':uikit').projectDir = new File('sdk/uikit')
+project(':uiframework').projectDir = new File('sdk/uiframework')
+project(':im').projectDir = new File('sdk/im')
+project(':authorize').projectDir = new File('sdk/authorize')
+project(':share').projectDir = new File('sdk/share')
+project(':lbs').projectDir = new File('sdk/lbs')
