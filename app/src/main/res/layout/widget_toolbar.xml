@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:ellipsize="end"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="@color/colorAccent"
         android:textSize="20sp"/>
 

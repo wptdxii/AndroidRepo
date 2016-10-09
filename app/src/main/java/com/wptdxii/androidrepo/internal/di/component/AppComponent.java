@@ -5,7 +5,7 @@ import android.content.Context;
 import com.wptdxii.androidrepo.internal.di.module.AppModule;
 import com.wptdxii.androidrepo.internal.di.module.GankApiModule;
 import com.wptdxii.androidrepo.internal.di.module.RepositoryModule;
-import com.wptdxii.androidrepo.ui.activity.ContentActivity;
+import com.wptdxii.androidrepo.ui.activity.MainActivity;
 import com.wptdxii.data.net.retrofit.api.gankapi.GankApi;
 import com.wptdxii.domain.executor.PostExecutionThread;
 import com.wptdxii.domain.executor.ThreadExecutor;
@@ -20,7 +20,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, GankApiModule.class, RepositoryModule.class})
 public interface AppComponent {
-    void inject(ContentActivity contentActivity);
+    void inject(MainActivity mainActivity);
 
     Context applicationContext();
 

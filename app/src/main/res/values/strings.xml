@@ -7,10 +7,5 @@
     <string name="sample_sdk_activity_toolbar_title">SDKSample</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="widget_activity_toolbar_title">Widget</string>
-    <string name="bottom_tab_msg">信息</string>
-    <string name="bottom_tab_contact">联系人</string>
-    <string name="bottom_tab_moments">发现</string>
-    <string name="bottom_tab_profile">我</string>
-    <string name="tabviewpager_activity_toolbar_title">TabViewPager</string>
-    <string name="home_activity_toolbar_title">Home</string>
+    <string name="main_activity_toolbar_title">MainActivity</string>
 </resources>

@@ -6,7 +6,7 @@ import android.os.Message;
 import android.view.WindowManager;
 
 import com.wptdxii.androidrepo.R;
-import com.wptdxii.androidrepo.ui.activity.ContentActivity;
+import com.wptdxii.androidrepo.ui.activity.MainActivity;
 import com.wptdxii.uiframework.base.BaseActivity;
 import com.wptdxii.ext.util.AppStatusTracker;
 
@@ -21,7 +21,7 @@ public class SplashActivity extends BaseActivity {
                     //解决全屏向非全屏跳转的toolbar闪动问题,在启动Activity前调用
                     cancelFullScreen();
                     
-                    ContentActivity.actionStart(SplashActivity.this);
+                    MainActivity.actionStart(SplashActivity.this);
                     finish();
                     break;
             }

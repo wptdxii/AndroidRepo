@@ -125,7 +125,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Toolbar.
         }
     }
 
-    protected void initToolbarTitle(int titleResId) {
+    protected void initToolbarTitle(@StringRes int titleResId) {
         if (titleResId > 0 && toolbarTitle != null) {
             toolbarTitle.setText(titleResId);
         }

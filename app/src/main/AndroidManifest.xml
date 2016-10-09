@@ -31,19 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.wptdxii.androidrepo.ui.activity.SwipeRecyclerActivity">
-        </activity>
-        <activity android:name="com.wptdxii.androidrepo.ui.activity.ContentActivity">
-        </activity>
-        <activity android:name="com.wptdxii.androidrepo.ui.activity.SampleSDKActivity">
-        </activity>
-        <activity android:name="com.wptdxii.androidrepo.ui.activity.WidgetActivity">
-        </activity>
-        <activity android:name="com.wptdxii.androidrepo.ui.activity.TabViewPagerActivity">
-        </activity>
-        <activity android:name="com.wptdxii.androidrepo.ui.activity.ViewPagerActivity">
-        </activity>
-        <activity android:name="com.wptdxii.androidrepo.ui.activity.SwipeRecyclerFragmentActivity">
+        <activity android:name="com.wptdxii.androidrepo.ui.activity.MainActivity">
         </activity>
     </application>
 

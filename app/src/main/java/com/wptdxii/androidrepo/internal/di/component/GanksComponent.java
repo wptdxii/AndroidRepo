@@ -3,7 +3,7 @@ package com.wptdxii.androidrepo.internal.di.component;
 import com.wptdxii.androidrepo.internal.di.module.ActivityModule;
 import com.wptdxii.androidrepo.internal.di.module.GanksModule;
 import com.wptdxii.androidrepo.internal.di.scope.PerActivity;
-import com.wptdxii.androidrepo.ui.activity.ContentActivity;
+import com.wptdxii.androidrepo.ui.activity.MainActivity;
 
 import dagger.Component;
 
@@ -14,5 +14,5 @@ import dagger.Component;
 @Component(modules = {ActivityModule.class, GanksModule.class}, dependencies = AppComponent.class)
 public interface GanksComponent {
 
-    void inject(ContentActivity activity);
+    void inject(MainActivity activity);
 }
